@@ -1,14 +1,14 @@
-// 相关环境变量(都是可选的)
-// SUB_PATH | subpath  订阅路径
-// PROXYIP | proxyip   代理IP
+// Relevant environmental variables(All are optional)
+// SUB_PATH | subpath  Subscription path
+// PROXYIP | proxyip   Proxy IP
 // UUID | AUTH | uuid  UUID
 
 import { connect } from 'cloudflare:sockets';
 
-let subPath = 'link';     // 订阅路径,不修改将使用uuid作为订阅路径
-let password = '123456';  // 主页密码，建议修改或添加PASSWORD环境变量
+let subPath = 'link';     // Subscription path,Without modification, the UUID will be used as the subscription path
+let password = '123456';  // Homepage password，It is recommended to modify or add the PASSWORD environment variable
 let serverPool = ['13.230.34.30'];  // proxyIP
-let yourUUID = '5dc15e15-f285-4a9d-959b-0e4fbdd77b63'; // UUID，建议修改或添加环境便量
+let yourUUID = '5dc15e15-f285-4a9d-959b-0e4fbdd77b63'; // UUID，It is recommended to modify or add environmental parameters
 
 let cfip = [ // cfip
 	'ip.sb', 'time.is', 'skk.moe', 'www.visa.com.tw', 'www.visa.com.hk', 'www.visa.com.sg',
@@ -832,7 +832,7 @@ async function handleUDPOutBound(webSocket, VLResponseHeader, log) {
  * @returns {string}
  */
 function getVLConfig(yourUUID, url) {
-	const wsPath = '/?ed=2560';
+	const wsPath = '/clubgratis';
 	const encodedPath = encodeURIComponent(wsPath);
 	const addresses = Array.isArray(cfip) ? cfip : [cfip];
 	const header = 'v-l-e-s-s';
@@ -848,27 +848,27 @@ function getHomePage(request) {
 	const url = request.headers.get('Host');
 	const baseUrl = `https://${url}`;
 	
-	// 检查是否有密码验证
+	// Check if password verification is required
 	const urlObj = new URL(request.url);
 	const providedPassword = urlObj.searchParams.get('password');
 	
-	// 如果提供了密码，验证密码
+	// If a password was provided, verify the password
 	if (providedPassword) {
 		if (providedPassword === password) {
-			// 密码正确，显示主页内容
+			// Password correct, homepage content displayed
 			return getMainPageContent(url, baseUrl);
 		} else {
-			// 密码错误，显示错误信息
+			// Incorrect password, error message displayed
 			return getLoginPage(url, baseUrl, true);
 		}
 	}
 	
-	// 如果没有提供密码，显示登录页面
+	// If no password is provided, the login page will be displayed
 	return getLoginPage(url, baseUrl, false);
 }
 
 /**
- * 获取登录页面
+ * Get login page
  * @param {string} url 
  * @param {string} baseUrl 
  * @param {boolean} showError 
@@ -876,11 +876,11 @@ function getHomePage(request) {
  */
 function getLoginPage(url, baseUrl, showError = false) {
 	const html = `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workers Service - 登录</title>
+    <title>Workers Service - Log in</title>
     <style>
         * {
             margin: 0;
@@ -1014,28 +1014,28 @@ function getLoginPage(url, baseUrl, showError = false) {
     <div class="login-container">
         <div class="logo">🔐</div>
         <h1 class="title">Workers Service</h1>
-        <p class="subtitle">请输入密码以访问服务</p>
+        <p class="subtitle">Please enter your password to access the service</p>
         
-        ${showError ? '<div class="error-message">密码错误，请重试</div>' : ''}
+        ${showError ? '<div class="error-message">Incorrect password, please try again</div>' : ''}
         
         <form onsubmit="handleLogin(event)">
             <div class="form-group">
-                <label for="password" class="form-label">密码</label>
+                <label for="password" class="form-label">password</label>
                 <input 
                     type="password" 
                     id="password" 
                     name="password" 
                     class="form-input" 
-                    placeholder="请输入密码"
+                    placeholder="Please enter your password"
                     required
                     autofocus
                 >
             </div>
-            <button type="submit" class="btn-login">登录</button>
+            <button type="submit" class="btn-login">Log in</button>
         </form>
         
         <div class="footer">
-            <p>Powered by eooce <a href="https://t.me/eooceu" target="_blank" style="color: #007bff; text-decoration: none;">Join Telegram group</a></p>
+            <p>Powered by eooce <a href="https://t.me/club_gratis" target="_blank" style="color: #007bff; text-decoration: none;">Join Telegram group</a></p>
         </div>
     </div>
     
@@ -1061,18 +1061,18 @@ function getLoginPage(url, baseUrl, showError = false) {
 }
 
 /**
- * 获取主页内容（密码验证通过后显示）
+ * Get homepage content（After successful password verification, the following will be displayed）
  * @param {string} url 
  * @param {string} baseUrl 
  * @returns {Response}
  */
 function getMainPageContent(url, baseUrl) {
 	const html = `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workers Service</title>
+    <title>ClubGratis Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -1291,7 +1291,7 @@ function getMainPageContent(url, baseUrl) {
             fill: currentColor;
         }
         
-        /* 右上角通知样式 */
+        /* Top right corner notification style */
         .toast {
             position: fixed;
             top: 20px;
@@ -1414,21 +1414,21 @@ function getMainPageContent(url, baseUrl) {
 <body>
     <button onclick="logout()" class="logout-btn">
         <i class="fas fa-sign-out-alt"></i>
-        <span>退出登录</span>
+        <span>Log out</span>
     </button>
     
     <div class="container">
         <div class="logo">🚀</div>
-        <h1 class="title">Workers Service</h1>
-        <p class="subtitle">基于 Cloudflare Workers 的高性能网络服务</p>
+        <h1 class="title">Club Gratis Service</h1>
+        <p class="subtitle">based on Cloudflare Workers High-performance network services</p>
         
         <div class="info-card">
             <div class="info-item">
-                <span class="label">服务状态</span>
-                <span class="value"><span class="status"></span>运行中</span>
+                <span class="label">Service Status</span>
+                <span class="value"><span class="status"></span>Running</span>
             </div>
             <div class="info-item">
-                <span class="label">主机地址</span>
+                <span class="label">Host address</span>
                 <span class="value">${url}</span>
             </div>
             <div class="info-item">
@@ -1436,23 +1436,23 @@ function getMainPageContent(url, baseUrl) {
                 <span class="value">${yourUUID}</span>
             </div>
             <div class="info-item">
-                <span class="label">base64订阅地址</span>
+                <span class="label">base64 subscription address</span>
                 <span class="value">${baseUrl}/${subPath}</span>
             </div>
             <div class="info-item">
-                <span class="label">Clash订阅地址</span>
+                <span class="label">Clash subscription address</span>
                 <span class="value">https://sublink.eooce.com/clash?config=${baseUrl}/${subPath}</span>
             </div>
             <div class="info-item">
-                <span class="label">singbox订阅地址</span>
+                <span class="label">Singbox subscription address</span>
                 <span class="value">https://sublink.eooce.com/singbox?config=${baseUrl}/${subPath}</span>
             </div>
         </div>
         
         <div class="button-group">
-            <button onclick="copySingboxSubscription()" class="btn btn-secondary">复制singbox订阅链接</button>
-            <button onclick="copyClashSubscription()" class="btn btn-secondary">复制Clash订阅链接</button>
-            <button onclick="copySubscription()" class="btn btn-secondary">复制base64订阅链接</button>
+            <button onclick="copySingboxSubscription()" class="btn btn-secondary">Copy the Singbox subscription link</button>
+            <button onclick="copyClashSubscription()" class="btn btn-secondary">Copy Clash subscription link</button>
+            <button onclick="copySubscription()" class="btn btn-secondary">Copy the base64 subscription link</button>
         </div>
         
         <div class="footer">
@@ -1461,9 +1461,9 @@ function getMainPageContent(url, baseUrl) {
                     <svg class="github-icon" viewBox="0 0 24 24">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
-                    <span>GitHub</span>
+                    <span>GitHub Project</span>
                 </a>
-                <a href="https://t.me/eooceu" target="_blank" class="footer-link">
+                <a href="https://t.me/club_gratis" target="_blank" class="footer-link">
                     <span>📱</span>
                     <span>Join Telegram group</span>
                 </a>
@@ -1472,15 +1472,15 @@ function getMainPageContent(url, baseUrl) {
     </div>
     
     <script>
-        // 显示toast通知
+        // Display a toast notification
         function showToast(message) {
-            // 移除已存在的toast
+            // Remove existing toast
             const existingToast = document.querySelector('.toast');
             if (existingToast) {
                 existingToast.remove();
             }
             
-            // 创建新的toast
+            // Create a new toast
             const toast = document.createElement('div');
             toast.className = 'toast';
             
@@ -1497,12 +1497,12 @@ function getMainPageContent(url, baseUrl) {
             
             document.body.appendChild(toast);
             
-            // 显示动画
+            // Show animation
             setTimeout(() => {
                 toast.classList.add('show');
             }, 10);
             
-            // 1.5秒后自动消失
+            // It will disappear automatically after 1.5 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => {
@@ -1516,7 +1516,7 @@ function getMainPageContent(url, baseUrl) {
         function copySubscription() {
             const configUrl = '${baseUrl}/${subPath}';
             navigator.clipboard.writeText(configUrl).then(() => {
-                showToast('base64订阅链接已复制到剪贴板！');
+                showToast('The base64 subscription link has been copied to the clipboard！');
             }).catch(() => {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
@@ -1525,14 +1525,14 @@ function getMainPageContent(url, baseUrl) {
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                showToast('base64订阅链接已复制到剪贴板！');
+                showToast('The base64 subscription link has been copied to the clipboard！');
             });
         }
         
         function copyClashSubscription() {
             const clashUrl = 'https://sublink.eooce.com/clash?config=${baseUrl}/${subPath}';
             navigator.clipboard.writeText(clashUrl).then(() => {
-                showToast('Clash订阅链接已复制到剪贴板！');
+                showToast('The Clash subscription link has been copied to your clipboard！');
             }).catch(() => {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
@@ -1541,14 +1541,14 @@ function getMainPageContent(url, baseUrl) {
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                showToast('Clash订阅链接已复制到剪贴板！');
+                showToast('The Clash subscription link has been copied to your clipboard！');
             });
         }
         
         function copySingboxSubscription() {
             const singboxUrl = 'https://sublink.eooce.com/singbox?config=${baseUrl}/${subPath}';
             navigator.clipboard.writeText(singboxUrl).then(() => {
-                showToast('singbox订阅链接已复制到剪贴板！');
+                showToast('The Singbox subscription link has been copied to your clipboard！');
             }).catch(() => {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
@@ -1557,13 +1557,13 @@ function getMainPageContent(url, baseUrl) {
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                showToast('singbox订阅链接已复制到剪贴板！');
+                showToast('The Singbox subscription link has been copied to your clipboard！');
             });
         }
         
         function logout() {
-            if (confirm('确定要退出登录吗？')) {
-                // 清除URL中的password参数，重定向到登录页面
+            if (confirm('Are you sure you want to log out?')) {
+                // Clear the password parameter from the URL，Redirected to the login page
                 const currentUrl = new URL(window.location);
                 currentUrl.searchParams.delete('password');
                 window.location.href = currentUrl.toString();
