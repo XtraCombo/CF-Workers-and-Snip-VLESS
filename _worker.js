@@ -8,7 +8,7 @@ import { connect } from 'cloudflare:sockets';
 let subPath = 'link';     // Subscription path,Without modification, the UUID will be used as the subscription path
 let password = '123456';  // Homepage password，It is recommended to modify or add the PASSWORD environment variable
 let serverPool = ['13.230.34.30'];  // proxyIP
-let yourUUID = '5dc15e15-f285-4a9d-959b-0e4fbdd77b63'; // UUID，It is recommended to modify or add environmental parameters
+let yourUUID = 'f70ea27f-6ac6-4b3d-8260-e458adb5b78e'; // UUID，It is recommended to modify or add environmental parameters
 
 let cfip = [ // cfip
 	'ip.sb', 'time.is', 'skk.moe', 'www.visa.com.tw', 'www.visa.com.hk', 'www.visa.com.sg',
@@ -1035,7 +1035,7 @@ function getLoginPage(url, baseUrl, showError = false) {
         </form>
         
         <div class="footer">
-            <p>Powered by eooce <a href="https://t.me/club_gratis" target="_blank" style="color: #007bff; text-decoration: none;">Join Telegram group</a></p>
+            <p>Powered by club gratis <a href="https://t.me/club_gratis" target="_blank" style="color: #007bff; text-decoration: none;">Join Telegram group</a></p>
         </div>
     </div>
     
